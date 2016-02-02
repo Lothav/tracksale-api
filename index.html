@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>API Tracksale</title>
+    <link rel="icon" href="images/favicon.ico"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300italic,100,100italic,300" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/default.min.css">
+    <link rel="stylesheet" href="css/api.min.css">
+</head>
+<body data-spy="scroll" data-target="#menu">
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-5">
+                <h1>API</h1>
+            </div>
+            <div class="col-sm-7 hidden-xs">
+                <menu>
+                    <ul>
+                        <li>
+                            <a href="http://tracksale.co/?utm_source=API&utm_medium=Cabe%C3%A7alho&utm_campaign=Documenta%C3%A7%C3%A3o"
+                               target="_blank">
+                                <img src="images/tracksale.png" alt="Tracksale">
+                            </a>
+                        </li>
+                    </ul>
+                </menu>
+            </div>
+        </div>
+    </div>
+</header>
+<section id="subtitle" class="hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Integre <strong>sua empresa</strong> com a Tracksale</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-xs-12">
+                <h3 id="menu1">Introdução</h3>
+                <p>
+                    A API Tracksale foi desenvolvida com a finalidade de facilitar a comunicação entre a Tracksale e um outro sistema. 
+                    Ela foi desenvolvida seguindo o modelo de comunicação RESTful com JSON.
+                </p>
+                <p>
+                    Com ela, é possível realizar uma série de automações de funções e também de consultas de dados junto à plataforma Tracksale.
+                </p>
+                <h3 id="menu2">Primeiros Passos</h3>
+                <p>
+                    Para a utilização a API Tracksale, é preciso realizar uma configuração dentro da plataforma para
+                    habilitar essa opção. Os passos a seguir descrevem como isso pode ser feito.
+                </p>
+                <p>
+                    <ol type="1">
+                        <li>
+                            Faça o <a href="http://tracksale.co/login" target="_blank">login</a> na Tracksale com uma conta
+                            de adiministrador.
+                        </li>
+                        <li>
+                            Acesso o menu "<a href="http://tracksale.co/apps/" target="_blank">Apps</a>" no canto superior
+                            direito junto ao nome do
+                            usuário.
+                            <br/>
+                            <div class="div-img">
+                                <img src="images/menu_apps.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>
+                            Clique em <a href="http://tracksale.co/apps/#/api" target="_blank">instalar</a> no app
+                            <i>"API RESTful".</i>
+                            <div class="div-img">
+                                <img src="images/api_apps.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>
+                            Na tela de criação de API RESTfull, preencha todos os campos.
+                            <div class="div-img">
+                                <img src="images/api_create.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>
+                        Após a criação do app, a chave de API vai ser gerada para ser utilizada.
+                            <div class="div-img">
+                                <img src="images/api_key.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>Pronto, sua chave de API está pronta para ser utilizada.</li>
+                    </ol>
+                </p>
+                <h3 id="menu3">Comunicação</h3>
+                <p>
+                    Toda a comunicação da API é feita a partir da URL base <code>https://tracksale.co/api/v1</code> ou <code>http://tracksale.co/api/v1</code>.
+                </p>
+                <p>
+                    A autenticação da API é feita a partir do Header HTTP <code>Api-Key</code>, onde o seu valor deve ser a chave de API em Base64.
+                </p>
+                <h3 id="menu4">Métodos</h3>
+                <p>
+                    A seguir, são descritos os métodos disponíveis na API Tracksale.
+                </p>
+                <p>
+                    <ol type="i">
+                        <li id="method1">
+                            Listar Campanhas 
+                            <br><code>GET /campaign</code><br><br>
+                            Método responsável por listar todas as campanhas e suas respectivas chaves de acesso para os demais métodos.
+                            <br><br>
+                            Exemplo de retorno:
+                            <pre class="clean">
+<code>{
+    "error": {
+        "code": 0,
+        "msg":""
+    },
+    "items": [
+      {
+            "name": "Campanha 1",
+            "key": "ddd058a0dd800614b42d42c8b6a6ceee"
+      },
+      {
+            "name": "Camapnha 2",
+            "key": "5551b0546cc00bc97643c4522e31c999"
+      }
+    ]
+}
+</code>
+                            </pre>
+                        </li>
+                        <li id="method2">
+                            Agendar Disparo
+                            <br><code>POST /postSaleDispatch</code><br><br>
+                            Método responsável pelo agendamento de disparos de pesquisas.
+                            <br><br>
+                            Exemplo de chamada:
+                            <pre class="clean">
+<code>{
+    "campaign_key": "INSIRA A CHAVE DA CAMPANHA DESEJADA",
+    "customers": [
+        {
+            "name":"Guilherme Tonioli",
+            "email":"guilherme@tracksale.co",
+            "tags" : [
+                {
+                    "name" : "Estado",
+                    "value" : "MG"
+                },
+                {
+                    "name" : "Cidade",
+                    "value" : "Belo Horizonte"
+                }
+            ]
+        }
+    ],
+    "schedule_time": 1438291800
+}
+</code>
+                            </pre>
+                            <span class="text-color">Parâmetros</span><br><br>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Parâmetro</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>campaign_key</td>
+                                            <td>String</td>
+                                            <td>Sim</td>
+                                            <td>Chave da campanha alvo. Obtida pelo método <code>GET /campaign</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#table_customers">customers</a></td>
+                                            <td>Array</td>
+                                            <td>Sim</td>
+                                            <td>Lista dos clientes</td>
+                                        </tr>
+                                        <tr>
+                                            <td>schedule_time</td>
+                                            <td>Integer</td>
+                                            <td>Não</td>
+                                            <td>Data/hora no padrão timestamp (em segundos) para o agendamento do disparo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>dispatch_type</td>
+                                            <td>String</td>
+                                            <td>Não</td>
+                                            <td>Tipo de disparo da pesquisa. Possíveis valores: email (padrão) ou sms</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="table-responsive" id="table_customers">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>customers</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>name</td>
+                                            <td>String</td>
+                                            <td>Não</td>
+                                            <td>Nome do cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td>email</td>
+                                            <td>String</td>
+                                            <td>Sim (para disparos via email)</td>
+                                            <td>Email do cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td>phone</td>
+                                            <td>String</td>
+                                            <td>Sim (para disparos via SMS)</td>
+                                            <td>Telefone do cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#table_tags">tags</a></td>
+                                            <td>Array</td>
+                                            <td>Não</td>
+                                            <td>Tags para adicionar informações adicionais ao cliente</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="table-responsive" id="table_tags">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>tags</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>name</td>
+                                            <td>String</td>
+                                            <td>Sim</td>
+                                            <td>Nome da tag</td>
+                                        </tr>
+                                        <tr>
+                                            <td>value</td>
+                                            <td>String</td>
+                                            <td>Sim</td>
+                                            <td>Valor da tag</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br><br>
+                            Exemplo de retorno:
+                            <pre class="clean">
+<code>{
+    "error": {
+        "code":0,
+        "msg":""
+    },
+    "msg":"Disparo 'XTS123AQ' agendado!"
+}
+</code>
+                            </pre>
+                        </li>
+                        <li id="method3">
+                            Inserir Respostas
+                            <br><code>POST /postSaleAction</code><br><br>
+                            Método responsável pela inserção de respostas de clientes.
+                            <br><br>
+                            Exemplo de chamada:
+                            <pre class="clean">
+<code>{
+    "campaign_key": "INSIRA A CHAVE DA CAMPANHA DESEJADA",
+    "post_sale_actions":[
+        {
+            "name":"Carolina Ferreira",
+            "email":"carolina@tracksale.co",
+            "score":10,
+            "justification":"Muito bom!",
+            "createTime":1411506358,
+            "tags" : [
+                {
+                    "name" : "Estado",
+                    "value" : "SP"
+                }
+            ]
+        }
+    ]
+}
+</code>
+                            </pre>
+                            <span class="text-color">Parâmetros</span><br><br>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Parâmetro</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>campaign_key</td>
+                                            <td>String</td>
+                                            <td>Sim</td>
+                                            <td>Chave da campanha alvo. Obtida pelo método <code>GET /campaign</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#table_post_sale_actions">post_sale_actions</a></td>
+                                            <td>Array</td>
+                                            <td>Sim</td>
+                                            <td>Lista de respostas</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="table-responsive" id="table_post_sale_actions">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>post_sale_actions</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>name</td>
+                                            <td>String</td>
+                                            <td>Não</td>
+                                            <td>Nome do cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td>email</td>
+                                            <td>String</td>
+                                            <td>Sim (para disparos via email)</td>
+                                            <td>Email do cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td>score</td>
+                                            <td>Interger</td>
+                                            <td>Sim</td>
+                                            <td>Nota do NPS (entre 0 e 10)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>justification</td>
+                                            <td>String</td>
+                                            <td>Não</td>
+                                            <td>Comentário do cliente</td>
+                                        </tr>
+                                        <tr>
+                                            <td>createTime</td>
+                                            <td>Interger</td>
+                                            <td>Não</td>
+                                            <td>Data/hora no padrão timestamp (em segundos) da resposta</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#table_psa_tags">tags</a></td>
+                                            <td>Array</td>
+                                            <td>Não</td>
+                                            <td>Tags para adicionar informações adicionais ao cliente</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="table-responsive" id="table_psa_tags">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>tags</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>name</td>
+                                            <td>String</td>
+                                            <td>Sim</td>
+                                            <td>Nome da tag</td>
+                                        </tr>
+                                        <tr>
+                                            <td>value</td>
+                                            <td>String</td>
+                                            <td>Sim</td>
+                                            <td>Valor da tag</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br><br>
+                            Exemplo de retorno:
+                            <pre class="clean">
+<code>{
+    "error": {
+        "code":0,
+        "msg":"Opiniões de clientes inseridas"
+    }
+}
+</code>
+                            </pre>
+                        </li>
+                    </ol>
+                </p>
+                <h3 id="menu5">Tracksale Live</h3>
+                <p>
+                    As informações disponíveis no Tracksale Live podem ser consumidas atravez de aplicações externas. Para isso, é preciso criar e configurar um novo Tracksale Live seguinte informações abaixo:
+                </p>
+                <p>
+                    <ol type="1">
+                        <li>
+                            Faça o <a href="http://tracksale.co/login" target="_blank">login</a> na Tracksale com uma conta
+                            de adiministrador.
+                        </li>
+                        <li>
+                            Acesso o menu "<a href="http://tracksale.co/apps/" target="_blank">Apps</a>" no canto superior
+                            direito junto ao nome do
+                            usuário.
+                            <br/>
+                            <div class="div-img">
+                                <img src="images/menu_apps.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>
+                            Clique em <a href="http://tracksale.co/apps/#/api" target="_blank">instalar</a> no app
+                            <i>"Tracksale Live".</i>
+                            <div class="div-img">
+                                <img src="images/live_apps.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>
+                            Na tela de criação de API RESTfull, preencha todos os campos.
+                            <div class="div-img">
+                                <img src="images/live_create.png" class="img-responsive">
+                            </div>
+                        </li>
+                        <li>
+                        Após a criação do app, o link do Tracksale Live vai ser gerado e já pode ser utilizado.
+                        </li>
+                        <li>Pronto, seu Tracksale Live já está pronta para ser utilizada.</li>
+                    </ol>
+                </p>
+                <p>
+                    Toda a comunicação com o Tracksale Live é feita a partir da URL base <code>https://tracksale.co/live/CHAVE</code> ou <code>http://tracksale.co/live/CHAVE</code>.
+                </p>
+                <h3 id="menu6">Métodos</h3>
+                <p>
+                    A seguir, são descritos os métodos disponíveis no Tracksale Live.
+                </p>
+                <p>
+                    <ol type="i">
+                        <li id="method4">
+                            Obter Comentários 
+                            <br><code>GET /comments</code><br><br>
+                            Método responsável por retornar os comentários dos clientes.
+                            <br><br>
+                            Exemplo de chamada:
+                            <pre class="clean">
+                                <code>https://tracksale.co/live/9fcd63043104b23d81dd0334df6772f8/comments?start=01/01/2016&end=31/01/2016</code>
+                            </pre>
+                            <span class="text-color">Parâmetros</span><br><br>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Parâmetro</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>start</td>
+                                            <td>Date</td>
+                                            <td>Não</td>
+                                            <td>Data inicial no formato dd/mm/aaaa</td>
+                                        </tr>
+                                        <tr>
+                                            <td>end</td>
+                                            <td>Date</td>
+                                            <td>Não</td>
+                                            <td>Data final no formato dd/mm/aaaa</td>
+                                        </tr>
+                                        <tr>
+                                            <td>limit</td>
+                                            <td>Interger</td>
+                                            <td>Não</td>
+                                            <td>Total de comentários a serem retornado. Utilize -1 para retornar todos.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>tags</td>
+                                            <td>Boolean</td>
+                                            <td>Não</td>
+                                            <td>Retorna as tags referentes às respostas</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br><br>
+                            Exemplo de retorno:
+                            <pre class="clean">
+<code>[
+    {
+        "time": 1454340407,
+        "type": "Widget Modal",
+        "name": "Carol",
+        "email": "carol@tracksale.co",
+        "identification": null,
+        "phone": null,
+        "nps_answer": 7,
+        "nps_comment": null,
+        "campaign_name": "NPS - Pagantes",
+        "psd_id": "6805511",
+        "justifications": [],
+        "picture": null,
+        "tags": []
+    }
+]
+</code>
+                            </pre>
+                        </li>
+                        <li id="method5">
+                            NPS
+                            <br><code>GET /global</code><br><br>
+                            Método responsável por retornar a métrica do NPS;
+                            <br><br>
+                            Exemplo de chamada:
+                            <pre class="clean">
+                                <code>https://tracksale.co/live/9fcd63043104b23d81dd0334df6772f8/global?start=01/01/2016&end=31/01/2016</code>
+                            </pre>
+                            <span class="text-color">Parâmetros</span><br><br>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Parâmetro</th>
+                                            <th>Tipo</th>
+                                            <th>Obrigatório</th>
+                                            <th>Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>start</td>
+                                            <td>Date</td>
+                                            <td>Não</td>
+                                            <td>Data inicial no formato dd/mm/aaaa</td>
+                                        </tr>
+                                        <tr>
+                                            <td>end</td>
+                                            <td>Date</td>
+                                            <td>Não</td>
+                                            <td>Data final no formato dd/mm/aaaa</td>
+                                        </tr>
+                                        <tr>
+                                            <td>compare</td>
+                                            <td>Boolean</td>
+                                            <td>Não</td>
+                                            <td>Retorna os dados do NPS referente ao período anterior do filtro de data.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br><br>
+                            Exemplo de retorno:
+                            <pre class="clean">
+<code>{
+    "detractors": 2,
+    "detractors_percentage": 3,
+    "passives": 16,
+    "passives_percentage": 23,
+    "promoters": 50,
+    "promoters_percentage": 74,
+    "nps": 71,
+    "compare": {
+        "detractors": 8,
+        "detractors_percentage": 13,
+        "passives": 6,
+        "passives_percentage": 10,
+        "promoters": 46,
+        "promoters_percentage": 77,
+        "nps": 64
+    }
+}
+</code>
+                            </pre>
+                        </li>
+                    </ol>
+                </p>
+            </div>
+            <div class="col-sm-3 hidden-xs">
+                <div id="menu" class="menu_affix" data-spy="affix" data-offset-top="25">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#menu1">Introdução</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#menu2">Primeiros Passos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#menu3">Comunicação</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#menu4">Métodos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav-link" href="#method1">Listar Campanhas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav-link" href="#method2">Agendar Disparo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav-link" href="#method3">Inserir Respostas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#menu5">Tracksale Live</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#menu6">Métodos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav-link" href="#method4">Obter Comentários</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sub-nav-link" href="#method5">NPS</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <a href="http://tracksale.co/?utm_source=API&utm_medium=Rodap%C3%A9&utm_campaign=Documenta%C3%A7%C3%A3o"
+       target="_blank">
+        <img src="images/logo_tracksale_black.png">
+    </a>
+</footer>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-smooth-scroll/1.6.1/jquery.smooth-scroll.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/highlight.pack.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+<script src="js/api.min.js"></script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-33982924-4', 'auto');
+    ga('send', 'pageview');
+</script>
+</body>
+</html>
