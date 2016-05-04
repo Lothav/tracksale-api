@@ -441,6 +441,40 @@
 </code>
                             </pre>
                         </li>
+                                            <li id="method6">
+                        Dados da Campanha
+                        <br><code>GET /postSaleAction/hash</code><br><br>
+                        Método que permite obter dados da campanha a partir de sua CHAVE ou sua por uma ROTA.
+                        <br><br>
+                        Exemplo de chamada:<br>
+                        Com a <b>chave</b> da Campanha desejada:<br>
+                        <code>https://tracksale.co/api/V1/CHAVE</code>
+                        <br>
+                        Com a <b>rota</b> da Campanha desejada:<br>
+                        <code>https://tracksale.co/api/V1/route/CHAVE</code>
+                        <br><br>
+                        Exemplo de retorno:
+<pre class="clean"><code>{
+    "name" : "Satisfação de Compra",
+    "questions":
+        [
+            {
+                "type" : "nps",
+                "title" : "O que poderíamos fazer para melhorar ...",
+                "question" : "Em uma escala de 0 a 10, o quanto...",
+                "secondary" : "Em poucas palavras, descreva ..."
+            },
+            {
+                "type" : "nps",
+                "title" : "O que você particularmente recomendaria...",
+                "question" : "Com base na sua última compra, ..."
+            },
+                ...
+        ]
+}
+</code></pre>
+                    </li>
+                    <br>
                     </ol>
                 </p>
                 <h3 id="menu5">Tracksale Live</h3>
@@ -656,6 +690,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link sub-nav-link" href="#method3">Inserir Respostas</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link sub-nav-link" href="#method6">Dados da Campanha</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#menu5">Tracksale Live</a>
